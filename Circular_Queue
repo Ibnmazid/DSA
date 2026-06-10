@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+class CircularQueue
+{
+    int front, rear, size;
+    int *arr;
+
+public:
+
+    CircularQueue(int n)
+    {
+        size = n;
+        arr = new int[size];
+
+        front = -1;
+        rear = -1;
+    }
+
+    void enqueue(int value)
+    {
+        if((rear + 1) % size == front)
+        {
+            cout<<"Queue Overflow\n";
+            return;
+        }
+
+        if(front == -1)
+        {
+            front = rear = 0;
+        }
+        else
+        {
+            rear = (rear + 1) % size;
+        }
+
+        arr[rear] = value;
+    }
+
+    void dequeue()
+    {
+        if(front == -1)
+        {
+            cout<<"Queue Underflow\n";
+            return;
+        }
+
+        cout<<"Deleted: "
+            <<arr[front]
+            <<endl;
+
+        if(front == rear)
+        {
+            front = rear = -1;
+        }
+        else
+        {
+            front = (front + 1) % size;
+        }
+    }
+
+    void display()
+    {
+        if(front == -1)
+        {
+            cout<<"Queue Empty\n";
+            return;
+        }
+
+        int i = front;
+
+        while(true)
+        {
+            cout<<arr[i]<<" ";
+
+            if(i == rear)
+                break;
+
+            i = (i + 1) % size;
+        }
+
+        cout<<endl;
+    }
+};
+
+int main()
+{
+    CircularQueue q(5);
+
+    q.enqueue(10);
+    q.enqueue(20);
+    q.enqueue(30);
+
+    q.display();
+
+    q.dequeue();
+
+    q.display();
+
+    q.enqueue(40);
+    q.enqueue(50);
+    q.enqueue(60);
+
+    q.display();
+
+    return 0;
+}
