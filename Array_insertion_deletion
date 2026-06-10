@@ -1,0 +1,70 @@
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    string arr[10] = {"BBBB", "DDDD", "MMMM", "XXXX"};
+    int n = 4;
+
+    cout << "Initial Array:\n";
+    for(int i=0; i<n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    // Insert FFFF
+    string item = "FFFF";
+    int pos = 0;
+
+    while(pos < n && arr[pos] < item)
+        pos++;
+
+    for(int i=n; i>pos; i--)
+        arr[i] = arr[i-1];
+
+    arr[pos] = item;
+    n++;
+
+    // Insert ZZZZ
+    item = "ZZZZ";
+    pos = 0;
+
+    while(pos < n && arr[pos] < item)
+        pos++;
+
+    for(int i=n; i>pos; i--)
+        arr[i] = arr[i-1];
+
+    arr[pos] = item;
+    n++;
+
+    cout << "\nAfter Insertion:\n";
+    for(int i=0; i<n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+
+    // Delete MMMM
+    pos = -1;
+
+    for(int i=0; i<n; i++)
+    {
+        if(arr[i] == "MMMM")
+        {
+            pos = i;
+            break;
+        }
+    }
+
+    if(pos != -1)
+    {
+        for(int i=pos; i<n-1; i++)
+            arr[i] = arr[i+1];
+
+        n--;
+    }
+
+    cout << "\nAfter Deleting MMMM:\n";
+    for(int i=0; i<n; i++)
+        cout << arr[i] << " ";
+
+    return 0;
+}
