@@ -1,0 +1,60 @@
+#include <iostream>
+#include <stack>
+using namespace std;
+
+struct Frame {
+    int n;
+    char source;
+    char auxiliary;
+    char destination;
+};
+
+int main() {
+
+    int n;
+    cout << "Enter number of disks: ";
+    cin >> n;
+
+    stack<Frame> st;
+
+    st.push({n, 'A', 'B', 'C'});
+
+    while (!st.empty()) {
+
+        Frame current = st.top();
+        st.pop();
+
+        if (current.n == 1) {
+            cout << "Move Disk 1 from "
+                 << current.source
+                 << " to "
+                 << current.destination
+                 << endl;
+        }
+        else {
+
+            st.push({
+                current.n - 1,
+                current.auxiliary,
+                current.source,
+                current.destination
+            });
+
+            st.push({
+                1,
+                current.source,
+                current.auxiliary,
+                current.destination
+            });
+
+            st.push({
+                current.n - 1,
+                current.source,
+                current.destination,
+                current.auxiliary
+            });
+        }
+    }
+
+    return 0;
+}
