@@ -1,0 +1,94 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Edge
+{
+    int u, v, weight;
+};
+
+bool compare(Edge a, Edge b)
+{
+    return a.weight < b.weight;
+}
+
+vector<int> parent;
+
+int findParent(int node)
+{
+    if(parent[node] == node)
+        return node;
+
+    return parent[node] =
+           findParent(parent[node]);
+}
+
+void unionSet(int u, int v)
+{
+    parent[findParent(u)] =
+    findParent(v);
+}
+
+void kruskal(int V, vector<Edge>& edges)
+{
+    sort(edges.begin(), edges.end(), compare);
+
+    parent.resize(V);
+
+    for(int i = 0; i < V; i++)
+        parent[i] = i;
+
+    int totalCost = 0;
+
+    cout << "MST Edges:\n";
+
+    for(auto edge : edges)
+    {
+        int pu = findParent(edge.u);
+        int pv = findParent(edge.v);
+
+        if(pu != pv)
+        {
+            cout << edge.u
+                 << " - "
+                 << edge.v
+                 << " : "
+                 << edge.weight
+                 << endl;
+
+            totalCost += edge.weight;
+
+            unionSet(edge.u, edge.v);
+        }
+    }
+
+    cout << "Total Cost = "
+         << totalCost
+         << endl;
+}
+
+int main()
+{
+    int V, E;
+
+    cin >> V >> E;
+
+    vector<Edge> edges;
+
+    for(int i = 0; i < E; i++)
+    {
+        Edge e;
+
+        cin >> e.u
+            >> e.v
+            >> e.weight;
+
+        edges.push_back(e);
+    }
+
+    kruskal(V, edges);
+
+    return 0;
+}
