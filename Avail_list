@@ -1,0 +1,84 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node* next;
+};
+
+Node* getNode(Node*& avail)
+{
+    if(avail==NULL)
+        return NULL;
+
+    Node* temp=avail;
+
+    avail=avail->next;
+
+    temp->next=NULL;
+
+    return temp;
+}
+
+void insertAfterX(
+    Node* head,
+    Node*& avail,
+    int X,
+    int value)
+{
+    Node* newNode=getNode(avail);
+
+    if(newNode==NULL)
+    {
+        cout<<"No Free Node\n";
+        return;
+    }
+
+    newNode->data=value;
+
+    Node* temp=head;
+
+    while(temp!=NULL &&
+          temp->data!=X)
+    {
+        temp=temp->next;
+    }
+
+    if(temp==NULL)
+        return;
+
+    newNode->next=temp->next;
+
+    temp->next=newNode;
+}
+
+void display(Node* head)
+{
+    while(head)
+    {
+        cout<<head->data<<" ";
+        head=head->next;
+    }
+    cout<<endl;
+}
+
+int main()
+{
+    Node* head=new Node{10,NULL};
+
+    head->next=new Node{20,NULL};
+    head->next->next=new Node{30,NULL};
+    head->next->next->next=new Node{40,NULL};
+
+    Node* avail=new Node{0,NULL};
+    avail->next=new Node{0,NULL};
+    avail->next->next=new Node{0,NULL};
+
+    insertAfterX(head,
+                 avail,
+                 20,
+                 25);
+
+    display(head);
+}
